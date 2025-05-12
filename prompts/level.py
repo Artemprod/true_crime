@@ -1,0 +1,7 @@
+GENERATE_LOCATION_PROMPT = """
+
+"""
+
+INSPECT_LOCATION_PROMPT = """
+
+"""
