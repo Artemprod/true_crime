@@ -4,30 +4,34 @@ from pydantic import BaseModel
 
 
 class User(BaseModel):
-    name:str
-    game_played:str
+    name: str
+    game_played: str
+
 
 class Conclusion(BaseModel):
-    text:str
+    text: str
+
 
 class Fact(BaseModel):
-    location:str
+    location: str
     source: str
-    text:str
+    text: str
 
 
 class Character(BaseModel):
-    name:str
-    bio:str
-    gathered_facts:str
-    conclusions:List[Conclusion]
+    name: str
+    bio: str
+    gathered_facts: str
+    conclusions: List[Conclusion]
 
 
 class Npc(BaseModel):
     name: str
     role: str
     description: str  # внешний вид, особенности поведения
-    personality: Optional[str] = None  # черты характера, напр: 'жесткий', 'доброжелательный'
+    personality: Optional[str] = (
+        None  # черты характера, напр: 'жесткий', 'доброжелательный'
+    )
     mood: Optional[str] = "neutral"  # текущее настроение NPC
     known_facts: List[str] = []  # что NPC знает
     inventory: Optional[List[str]] = []  # предметы у NPC
@@ -36,17 +40,12 @@ class Npc(BaseModel):
 
 
 class Location(BaseModel):
-    facts:List[str]
-    description:str
-    goal:str
-    riddle:str
-    npc:List[Npc]
+    facts: List[str]
+    description: str
+    goal: str
+    riddle: str
+    npc: List[Npc]
 
 
 class Game(BaseModel):
-    locations:List[Location]
-
-
-
-
-
+    locations: List[Location]
