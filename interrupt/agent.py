@@ -10,8 +10,8 @@ from dotenv import load_dotenv
 
 _ = load_dotenv()
 
-llm = ChatMistralAI(model="mistral-large-latest", temperature=0.2)
-lllm = ChatOpenAI(model="gp")
+# llm = ChatMistralAI(model="mistral-large-latest", temperature=0.2)
+llm = ChatOpenAI(model="gpt-4.1-nano", temperature=1)
 
 
 class AgentState(MessagesState):
@@ -81,9 +81,6 @@ def check_answer(state: AgentState):
             HumanMessage(content=state.get("answer", "не знаю ответ")),
         ]
     )
-    logger.info(f"Answer correct: {response.correct}")
-
-    updates = {"is_correct": response.correct}
 
     next_steps = {
         "first_question": "second_question",
@@ -92,8 +89,11 @@ def check_answer(state: AgentState):
     }
     if not response.correct:
         logger.info(f"Answer is incorrect, from node {state['node']} -> (ask_again)")
-        "ask_again"
+        return "ask_again"
 
+    logger.info(
+        f"Answer correct: {response.correct} | {state['node']} -> {next_steps[state.get('node', 'first_question')]}"
+    )
     return next_steps[state.get("node", "first_question")]
 
 
@@ -121,7 +121,10 @@ graph.set_entry_point("first_question")
 graph.add_conditional_edges(
     "first_question",
     check_answer,
-    ["ask_again", "second_question", ],
+    [
+        "ask_again",
+        "second_question",
+    ],
 )
 graph.add_conditional_edges(
     "second_question",
@@ -135,13 +138,11 @@ graph.add_conditional_edges(
     ["ask_again", END],
 )
 
-# app = graph.compile(interrupt_after=["first_question", "second_question", "third_question"])
-
 with RedisSaver.from_conn_string("redis://localhost:6378/0") as checkpointer:
     checkpointer.setup()
     app = graph.compile(
         interrupt_after=["first_question", "second_question", "third_question"],
-        checkpointer=checkpointer
+        checkpointer=checkpointer,
     )
 
     thread = {"configurable": {"thread_id": "22k"}}
@@ -163,7 +164,7 @@ with RedisSaver.from_conn_string("redis://localhost:6378/0") as checkpointer:
                         "answer": user_input,
                         "messages": state.values["messages"]
                                     + [HumanMessage(content=user_input)],
-                    }
+                    },
                 )
         if not interrupt_found:
             print("Все вопросы завершены!")
