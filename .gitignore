@@ -28,3 +28,4 @@ poetry.lock
 *.jpg
 *.mp3
 *.wav
+.langgraph_api
