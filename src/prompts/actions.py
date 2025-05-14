@@ -2,3 +2,7 @@ CHECK_CONCLUSION_PROMPT = """
 
 """
 
+INSPECT_LOCATION_PROMPT = """
+
+"""
+
