@@ -36,6 +36,7 @@ builder.set_finish_point("introduction")
 #
 #     graph = builder.compile(checkpointer=checkpointer, store=store)
 
+
     # config = {
     #     "configurable": {"thread_id": "thread_17", "user_id":"2"},
     #      "metadata":{"locations":2,"npc":2}
