@@ -27,23 +27,23 @@ builder.add_conditional_edges("generate_npc_character",map_reduce_level, ["gener
 builder.set_finish_point("introduction")
 
 
-with (
-    PostgresStore.from_conn_string(os.environ.get("POSTGRES_DATABASE_URL")) as store,
-    RedisSaver.from_conn_string(os.environ.get("REDIS_DB_URI")) as checkpointer,
-):
-    # store.setup()
-    # checkpointer.setup()
+# with (
+#     PostgresStore.from_conn_string(os.environ.get("POSTGRES_DATABASE_URL")) as store,
+#     RedisSaver.from_conn_string(os.environ.get("REDIS_DB_URI")) as checkpointer,
+# ):
+#     # store.setup()
+#     # checkpointer.setup()
+#
+#     graph = builder.compile(checkpointer=checkpointer, store=store)
 
-    graph = builder.compile(checkpointer=checkpointer, store=store)
-
-    config = {
-        "configurable": {"thread_id": "thread_17", "user_id":"2"},
-         "metadata":{"locations":2,"npc":2}
-        }
-
-    stream = graph.stream({}, config=config, debug=False)
-    for event in stream:
-        print(event)
-
-
-    print()
+    # config = {
+    #     "configurable": {"thread_id": "thread_17", "user_id":"2"},
+    #      "metadata":{"locations":2,"npc":2}
+    #     }
+    #
+    # stream = graph.stream({}, config=config, debug=False)
+    # for event in stream:
+    #     print(event)
+    #
+    #
+    # print()
