@@ -11,6 +11,7 @@ class GameState(TypedDict):
     nps_roles:List[str]
 
 
+
 class NpcRoleState(TypedDict):
     id:str
     role:str

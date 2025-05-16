@@ -8,7 +8,10 @@ class Fact(BaseModel):
     text:str
 
 class Conclusion(BaseModel):
-    text:str
+    text:str = Field(..., description="Умозаключение главного героя на основе фактов")
+
+class CorrectAnswer(BaseModel):
+    result: bool = Field(..., description="Результат сравнения умозаключения и правильного ответа ")
 
 class User(BaseModel):
     name:str
