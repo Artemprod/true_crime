@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from trustcall import create_extractor
 
-from src.flow.models import Character, NpcRoles, Npc, Location
+from src.flow.models import Character, NpcRoles, Npc, Location, Fact
 
 load_dotenv()
 llm = ChatOpenAI(model="gpt-4.1-nano", temperature=1)
@@ -34,5 +34,12 @@ location_extractor = create_extractor(
     llm=llm,
     tools=[Location],
     tool_choice="Location",
+    enable_inserts=True
+)
+
+fact_extractor = create_extractor(
+    llm=llm,
+    tools=[Fact],
+    tool_choice="Fact",
     enable_inserts=True
 )
