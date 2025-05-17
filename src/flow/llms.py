@@ -1,3 +1,5 @@
+import os
+
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from trustcall import create_extractor
@@ -5,8 +7,23 @@ from trustcall import create_extractor
 from src.flow.models import Character, NpcRoles, Npc, Location, Fact, Conclusion, CorrectAnswer
 
 load_dotenv()
-llm = ChatOpenAI(model="gpt-4.1-nano", temperature=1)
 
+# mode = os.environ.get("MODE")
+
+# if mode == "DEV":
+#     llm = ChatOpenAI(
+#         base_url="http://localhost:1234/v1",
+#         api_key="lm-studio",  # Может быть любой строкой, если сервер не требует ключа
+#         model="TheBloke/phi-2-GGUF",
+#         max_tokens=1024
+#     )
+# elif mode == "PROD":
+#     llm = ChatOpenAI(model="gpt-4.1-nano", temperature=1)
+#     print("PROD MODEL")
+# else:
+#     raise ValueError("Undefined Mod variable")
+
+llm = ChatOpenAI(model="gpt-4.1-nano", temperature=1)
 
 character_extractor = create_extractor(
     llm=llm,

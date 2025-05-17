@@ -37,19 +37,17 @@ builder.set_finish_point("conclusion")
 
 
 
-
 with (
     PostgresStore.from_conn_string(os.environ.get("POSTGRES_DATABASE_URL")) as store,
     RedisSaver.from_conn_string(os.environ.get("REDIS_DB_URI")) as checkpointer,
 ):
     store.setup()
     checkpointer.setup()
-
     graph = builder.compile(checkpointer=checkpointer, store=store)
 
 
     config = {
-        "configurable": {"thread_id": "thread_999", "user_id":"2"},
+        "configurable": {"thread_id": "thread_4994900", "user_id":"2"},
          "metadata":{"locations":2,"npc":2}
         }
 
@@ -57,13 +55,13 @@ with (
     is_continue = True
 
     while is_continue:
-        print(state)
         stream = graph.stream(state, config, stream_mode="updates")
 
         for event in stream:
             current_graph_state = graph.get_state(config)
             logger.debug(f"СОСТОЯНИЕ  {current_graph_state}")
             logger.debug(f"CСЛЕДУЮщее  {current_graph_state.next}")
+
 
             if not current_graph_state.next:  # Если state.next пустой (граф завершился)
                 print("Граф завершил выполнение.")
