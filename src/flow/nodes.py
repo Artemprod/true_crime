@@ -86,7 +86,6 @@ def collect_facts(state: GameState, config: RunnableConfig, store: BaseStore):
 
     fact_prompt = INSPECT_LOCATION_PROMPT.format(user_action=answer,level_description=levl_descr,level_facts=level_facts)
     action_description = base_llm.invoke([SystemMessage(content=fact_prompt)])
-    print()
     get_fact_response = fact_extractor.invoke(GET_FACT_PROMPT.format(source_text=action_description.content))
     fact = get_fact_response["response"][0]
     existing_facts = [f for f in store.search((user_id, 'facts')) if f.key.startswith(f"{current_level}")]
